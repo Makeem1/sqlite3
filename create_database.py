@@ -28,11 +28,14 @@ many_customers = [
 # c.executemany("INSERT INTO customers VALUES (?,?,?)", many_customers)
 
 '''Querying data from the table created'''
-c.execute("SELECT * FROM customers")
+c.execute("SELECT rowid, * FROM customers")
 # print(c.fetchone())   #This help to query the first data in the table 
 # print(c.fetchmany(3)) #This help to query specified data from the table
-print(c.fetchall()) #This help to query all data from the table
+items = c.fetchall() #This help to query all data from the table
 
+print("NAME " + "\t\t" +  "EMAIL" )
+for item in items:
+    print(f"'{item[0]}'  {item[1]}  {item[2]}")
 print("command executed successfully...")
 
 """Commiting the data into table"""
