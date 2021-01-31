@@ -3,10 +3,10 @@ import sqlite3
 
 """ Creating database """
 conn = sqlite3.connect('customer.db')
-
+print(conn)
 # creating cursor
 c = conn.cursor()
-
+print(c)
 ''' Creating table ''' 
 # c.execute("""CREATE TABLE customers(
 #     firstname text,
@@ -27,15 +27,28 @@ many_customers = [
 '''Inserting many data into table created'''
 # c.executemany("INSERT INTO customers VALUES (?,?,?)", many_customers)
 
-'''Querying data from the table created'''
-c.execute("SELECT rowid, * FROM customers")
-# print(c.fetchone())   #This help to query the first data in the table 
-# print(c.fetchmany(3)) #This help to query specified data from the table
-items = c.fetchall() #This help to query all data from the table
+'''
+    Querying data from the table created and also query the table. fetchone, fetchall, and fetchmany is use to fetch data from the table. Using the WHERE and LIKE clause to fetch a particular data from the table. 
 
-print("NAME " + "\t\t" +  "EMAIL" )
+    Note : All comparison operator can be used with WHERE clause
+    
+'''
+
+# c.execute("SELECT rowid, * FROM customers WHERE firstname = 'Ola' ")
+c.execute("SELECT rowid, * FROM customers WHERE email LIKE '%.com' ")
+# c.fetchone()  
+# c.fetchmany(3) 
+
+c.execute("UPDATE customers SET firstname = 'john' WHERE rowid = 22 ")
+c.execute("UPDATE customers SET firstname = 'Ola' WHERE rowid = 1 ")
+c.execute("SELECT rowid, * FROM customers WHERE firstname = 'john' ")
+conn.commit()
+
+items = c.fetchall() 
+
+
 for item in items:
-    print(f"'{item[0]}'  {item[1]}  {item[2]}")
+    print(item)
 print("command executed successfully...")
 
 """Commiting the data into table"""
