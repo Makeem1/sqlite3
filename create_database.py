@@ -42,6 +42,25 @@ c.execute("SELECT rowid, * FROM customers WHERE email LIKE '%.com' ")
 c.execute("UPDATE customers SET firstname = 'john' WHERE rowid = 22 ")
 c.execute("UPDATE customers SET firstname = 'Ola' WHERE rowid = 1 ")
 c.execute("SELECT rowid, * FROM customers WHERE firstname = 'john' ")
+
+
+"""Delting data from table"""
+# c.execute("DELETE from customers WHERE  rowid = 1 ")
+
+"""Ordering table"""
+# c.execute("SELECT rowid, * FROM customers ORDER BY firstname = 'john' DESC ")
+
+"""Using conditional statement OR and AND for querying table"""
+# c.execute('SELECT * FROM customers WHERE lastname LIKE "%oe" OR rowid = 2 ')
+
+"""Limiting a search result """
+c.execute("SELECT rowid, * FROM customers WHERE lastname = 'Doe' ORDER BY rowid = 2 LIMIT 5")
+
+"""Deleting the entire table"""
+c.execute('DROP TABLE customers')
+print("Table deleted")
+
+
 conn.commit()
 
 items = c.fetchall() 
