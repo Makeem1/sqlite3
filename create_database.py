@@ -1,80 +1,205 @@
 import sqlite3
 
 
-""" Creating database """
-conn = sqlite3.connect('customer.db')
-print(conn)
-# creating cursor
-c = conn.cursor()
-print(c)
-''' Creating table ''' 
-# c.execute("""CREATE TABLE customers(
-#     firstname text,
-#     lastname text,
-#     email text
-# )""")
+def show_all():
+    """Creating a connection customer db"""
+    conn = sqlite3.connect(('customer.db'))
 
-"""Adding many data into the customers table at once, a list of turple is created """
-many_customers = [
-    ('John', 'Doe', 'hohndoe@gmail.com'),
-    ('Ron', 'Doe', 'Ron@gmail.com'),
-    ('John', 'Lyric', 'lyric@gmail.com'),
-]
+    """Creating cursor"""
+    c = conn.cursor()
 
-'''Inserting date into table created'''
-# c.execute("INSERT INTO customers VALUES ('Ola', 'Akeem', 'Ola@example.com')") 
+    """Showing all the table data"""    
+    c.execute("SELECT rowid, * FROM customers")
 
-'''Inserting many data into table created'''
-# c.executemany("INSERT INTO customers VALUES (?,?,?)", many_customers)
+    """Committing into the database"""
+    conn.commit()
 
-'''
-    Querying data from the table created and also query the table. fetchone, fetchall, and fetchmany is use to fetch data from the table. Using the WHERE and LIKE clause to fetch a particular data from the table. 
+    """Creating a query """
+    items = c.fetchall()
 
-    Note : All comparison operator can be used with WHERE clause
+    for item in items:
+        print(item)
+    """Closing the database """
+    conn.close()
+
+
+def insert_one(firstname, lastname, email):
+    """Creating a connection customer db"""
+    conn = sqlite3.connect(('customer.db'))
+
+    """Creating cursor"""
+    c = conn.cursor()
+
+    """Showing all the table data"""    
+    c.execute("INSERT INTO customers VALUES (?,?,?)", (firstname, lastname, email))
     
-'''
+    """Committing into the database"""
+    conn.commit()
 
-# c.execute("SELECT rowid, * FROM customers WHERE firstname = 'Ola' ")
-c.execute("SELECT rowid, * FROM customers WHERE email LIKE '%.com' ")
-# c.fetchone()  
-# c.fetchmany(3) 
-
-c.execute("UPDATE customers SET firstname = 'john' WHERE rowid = 22 ")
-c.execute("UPDATE customers SET firstname = 'Ola' WHERE rowid = 1 ")
-c.execute("SELECT rowid, * FROM customers WHERE firstname = 'john' ")
+    """Closing the database """
+    conn.close()
 
 
-"""Delting data from table"""
-# c.execute("DELETE from customers WHERE  rowid = 1 ")
+def insert_many(listdata):
+    """Creating a connection customer db"""
+    conn = sqlite3.connect(('customer.db'))
 
-"""Ordering table"""
-# c.execute("SELECT rowid, * FROM customers ORDER BY firstname = 'john' DESC ")
+    """Creating cursor"""
+    c = conn.cursor()
 
-"""Using conditional statement OR and AND for querying table"""
-# c.execute('SELECT * FROM customers WHERE lastname LIKE "%oe" OR rowid = 2 ')
+    """Showing all the table data"""    
+    c.execute("INSERT INTO customers VALUES (?,?,?)", listdata)
+    
+    """Committing into the database"""
+    conn.commit()
 
-"""Limiting a search result """
-c.execute("SELECT rowid, * FROM customers WHERE lastname = 'Doe' ORDER BY rowid = 2 LIMIT 5")
-
-"""Deleting the entire table"""
-c.execute('DROP TABLE customers')
-print("Table deleted")
-
-
-conn.commit()
-
-items = c.fetchall() 
+    """Closing the database """
+    conn.close()
 
 
-for item in items:
-    print(item)
-print("command executed successfully...")
+def update_table_lastname(lastname = None, rowid = None):
+    """Creating a connection customer db"""
+    conn = sqlite3.connect(('customer.db'))
 
-"""Commiting the data into table"""
-conn.commit()
+    """Creating cursor"""
+    c = conn.cursor()
 
-"""Closing the table"""
-conn.close()
+    if lastname and rowid :
+        """updating a the table data"""    
+        c.execute("UPDATE customers SET lastname = (?) WHERE rowid = (?)", (lastname, rowid) )
+    else:
+        """updating a the table data""" 
+        print("\n")
+        print("You need to specify the lastname and id of the data before update can be made ")
+        print('\n')
+        
+    """Committing into the database"""
+    conn.commit()
+
+    """ Closing the database """
+    conn.close()
+
+
+def update_table_firstname(firstname = None, rowid = None):
+    """Creating a connection customer db"""
+    conn = sqlite3.connect(('customer.db'))
+
+    """Creating cursor"""
+    c = conn.cursor()
+
+    if firstname and rowid :
+        """updating a the table data"""    
+        c.execute("UPDATE customers SET firstname = (?) WHERE rowid = (?)", (firstname, rowid) )
+    else:
+        """updating a the table data""" 
+        print("\n")
+        print("You need to specify the firstname and id of the data before update can be made ")
+        print('\n')
+        
+    """Committing into the database"""
+    conn.commit()
+
+    """ Closing the database """
+    conn.close()
+
+def update_table_email(email = None, rowid = None):
+    """Creating a connection customer db"""
+    conn = sqlite3.connect(('customer.db'))
+
+    """Creating cursor"""
+    c = conn.cursor()
+
+    if email and rowid :
+        """updating a the table data"""    
+        c.execute("UPDATE customers SET email = (?) WHERE rowid = (?)", (email, rowid) )
+    else:
+        """updating a the table data""" 
+        print("\n")
+        print("You need to specify the email and id of the data before update can be made ")
+        print('\n')
+        
+    """Committing into the database"""
+    conn.commit()
+
+    """ Closing the database """
+    conn.close()
+
+
+# many_customers = [
+#     ('John', 'Doe', 'hohndoe@gmail.com'),
+#     ('Ron', 'Doe', 'Ron@gmail.com'),
+#     ('John', 'Lyric', 'lyric@gmail.com'),
+# ]
+
+# def insert_one(firstname, lastname, email):
+#     """ creating a database """
+#     # conn = sqlite3.connect('customer.db')
+#     """ creating cursor """
+#     c = conn.cursor()
+
+#     '''Inserting date into table created'''
+#     result = c.execute("INSERT INTO customers VALUES (?,?,?)", (firstname, lastname, email)) 
+#     conn.commit()
+#     """Commiting the data into table"""
+#     print(c.fetchone())
+#     # conn.commit()
+#     """Closing the table"""
+#     conn.close()
+
+# insert_one("ola", 'kola', 'ola@gmail.com')
+
+
+# '''Inserting many data into table created'''
+# # c.executemany("INSERT INTO customers VALUES (?,?,?)", many_customers)
+
+# '''
+#     Querying data from the table created and also query the table. fetchone, fetchall, and fetchmany is use to fetch data from the table. Using the WHERE and LIKE clause to fetch a particular data from the table. 
+
+#     Note : All comparison operator can be used with WHERE clause
+    
+# '''
+
+# # c.execute("SELECT rowid, * FROM customers WHERE firstname = 'Ola' ")
+# c.execute("SELECT rowid, * FROM customers WHERE email LIKE '%.com' ")
+# # c.fetchone()  
+# # c.fetchmany(3) 
+
+# c.execute("UPDATE customers SET firstname = 'john' WHERE rowid = 22 ")
+# c.execute("UPDATE customers SET firstname = 'Ola' WHERE rowid = 1 ")
+# c.execute("SELECT rowid, * FROM customers WHERE firstname = 'john' ")
+
+
+# """Delting data from table"""
+# # c.execute("DELETE from customers WHERE  rowid = 1 ")
+
+# """Ordering table"""
+# # c.execute("SELECT rowid, * FROM customers ORDER BY firstname = 'john' DESC ")
+
+# """Using conditional statement OR and AND for querying table"""
+# # c.execute('SELECT * FROM customers WHERE lastname LIKE "%oe" OR rowid = 2 ')
+
+# """Limiting a search result """
+# c.execute("SELECT rowid, * FROM customers WHERE lastname = 'Doe' ORDER BY rowid = 2 LIMIT 5")
+
+# """Deleting the entire table"""
+# c.execute('DROP TABLE customers')
+# print("Table deleted")
+
+
+# conn.commit()
+
+# items = c.fetchall() 
+
+
+# for item in items:
+#     print(item)
+# print("command executed successfully...")
+
+# """Commiting the data into table"""
+# conn.commit()
+
+# """Closing the table"""
+# conn.close()
 
 
 
