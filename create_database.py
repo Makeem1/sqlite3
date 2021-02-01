@@ -48,7 +48,7 @@ def insert_many(listdata):
     c = conn.cursor()
 
     """Showing all the table data"""    
-    c.execute("INSERT INTO customers VALUES (?,?,?)", listdata)
+    c.executemany("INSERT INTO customers VALUES (?,?,?)", listdata)
     
     """Committing into the database"""
     conn.commit()
@@ -123,6 +123,45 @@ def update_table_email(email = None, rowid = None):
 
     """ Closing the database """
     conn.close()
+
+
+def delete_data(id):
+    """Creating a connection customer db"""
+    conn = sqlite3.connect(('customer.db'))
+
+    """Creating cursor"""
+    c = conn.cursor()
+
+    if id:
+        c.execute('DELETE from customers WHERE rowid = (?) ', id)
+    else:
+        print("You need to input the id of the data you want to delete from the table ")
+
+    """Committing into the database"""
+    conn.commit()
+
+    """ Closing the database """
+    conn.close()
+
+
+
+def order_data(lastname):
+    """Creating a database """
+    conn = sqlite3.connect("customer.db")
+
+    """Creating a database """
+    c = conn.cursor()
+    c.execute("SELECT rowid, * FROM customers WHERE email LIKE '%mk.com' ORDER BY lastname" )
+     
+    """Committing into the database"""
+    conn.commit()
+
+    result = c.fetchall()
+    for item in result:
+        print(item )
+    """ Closing the database """
+    conn.close()
+
 
 
 # many_customers = [
